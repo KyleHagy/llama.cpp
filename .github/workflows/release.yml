@@ -938,6 +938,10 @@ jobs:
     needs: [check-release]
     if: ${{ needs.check-release.outputs.should_release == 'true' }}
 
+    permissions:
+      actions: write
+      contents: read
+
     runs-on: windows-2022
 
     defaults:
@@ -1046,6 +1050,10 @@ jobs:
   ubuntu-24-sycl:
     needs: [check-release]
     if: ${{ needs.check-release.outputs.should_release == 'true' }}
+
+    permissions:
+      actions: write
+      contents: read
 
     strategy:
       matrix:
