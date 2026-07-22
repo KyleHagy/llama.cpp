@@ -1029,8 +1029,14 @@ jobs:
           cp "${{ env.ONEAPI_ROOT }}/compiler/latest/bin/libmmd.dll" ./build/bin
           cp "${{ env.ONEAPI_ROOT }}/compiler/latest/bin/libiomp5md.dll" ./build/bin
           cp "${{ env.ONEAPI_ROOT }}/compiler/latest/bin/sycl-ls.exe" ./build/bin
-          cp "${{ env.ONEAPI_ROOT }}/compiler/latest/bin/libsycl-fallback-bfloat16.spv" ./build/bin
-          cp "${{ env.ONEAPI_ROOT }}/compiler/latest/bin/libsycl-native-bfloat16.spv" ./build/bin
+          for file in libsycl-fallback-bfloat16.spv libsycl-native-bfloat16.spv; do
+            path=$(find "${{ env.ONEAPI_ROOT }}/compiler/latest" -type f -name "$file" -print -quit)
+            if [ -n "$path" ]; then
+              cp "$path" ./build/bin
+            else
+              echo "$file is not included in this oneAPI version; skipping"
+            fi
+          done
 
           cp "${{ env.ONEAPI_ROOT }}/tbb/latest/bin/tbb12.dll" ./build/bin
 
